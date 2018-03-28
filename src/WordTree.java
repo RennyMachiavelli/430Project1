@@ -12,42 +12,47 @@ public class WordTree {
     public void insert(WordNode currentNode, WordNode wordNode) {
         if (currentNode == null)
             root = wordNode;
-
         else {
-            if(currentNode.getWord().equals(wordNode.getWord()))
+            //if words are equal add position to WordNode ArrayList
+            if (currentNode.getWord().equals(wordNode.getWord()))
                 currentNode.addPosition(wordNode.getPositions().get(0));
-            /*else if (currentNode.getWord().length() == 1 || wordNode.getWord().length() == 1) {
-                //if words are only 1 character long
-                if (currentNode.getWord().length() == 1 && wordNode.getWord().length() != 1)
-                    checkRight(currentNode, wordNode);
-                else
+            //checks to see if words are not equal in length
+            else if (currentNode.getWord().length() != wordNode.getWord().length()) {
+                //if current word contains new word then current word > new word
+                if (currentNode.getWord().contains(wordNode.getWord()))
                     checkLeft(currentNode, wordNode);
-            }
-            else if(currentNode.getWord().length() < wordNode.getWord().length())
-                checkRight(currentNode, wordNode);
-            else if(currentNode.getWord().length() > wordNode.getWord().length())
-                checkLeft(currentNode, wordNode);
-                */
-            //if second character of each word is the same check each letter until !=
-            else {
-                if(currentNode.getWord().charAt(1) == wordNode.getWord().charAt(1)) {
+                    //else if new word contains current word then new word > current word
+                else if (wordNode.getWord().contains(currentNode.getWord()))
+                    checkRight(currentNode, wordNode);
+                    //if words are not equal length compare each element the minimum length times
+                else {
                     int i = 1;
-                    if(currentNode.getWord().charAt(i +1) != null && wordNode.getWord().charAt(i+1)) != null){
-                        while (currentNode.getWord().charAt(i) == wordNode.getWord().charAt(i))
-                            i++;
+                    boolean done = false;
+                    while (!done && i < Math.min(currentNode.getWord().length(), wordNode.getWord().length())) {
+                        if (currentNode.getWord().charAt(i) < wordNode.getWord().charAt(i)) {
+                            checkRight(currentNode, wordNode);
+                            done = true;
+                        } else if (currentNode.getWord().charAt(i) > wordNode.getWord().charAt(i)) {
+                            checkLeft(currentNode, wordNode);
+                            done = true;
+                        }
+                        i++;
                     }
-                    //if current word < new word check if right of current is empty
-                    if (currentNode.getWord().charAt(i) < wordNode.getWord().charAt(i))
-                        checkRight(currentNode, wordNode);
-                    else if (currentNode.getWord().charAt(i) > wordNode.getWord().charAt(i))
-                        checkLeft(currentNode, wordNode);
                 }
-                //if current word is < new word
-                else if (currentNode.getWord().charAt(1) < wordNode.getWord().charAt(1))
-                    checkRight(currentNode, wordNode);
-                    //if current word > new word
-                else if (currentNode.getWord().charAt(1) > wordNode.getWord().charAt(1))
-                    checkLeft(currentNode, wordNode);
+            }
+            else {
+                //if words are equal length compare each element until one is less than or greater than the other
+                int i = 1;
+                while (i < currentNode.getWord().length()) {
+                    if (currentNode.getWord().charAt(i) < wordNode.getWord().charAt(i)) {
+                        checkRight(currentNode, wordNode);
+                        i = currentNode.getWord().length();
+                    } else if (currentNode.getWord().charAt(i) > wordNode.getWord().charAt(i)) {
+                        checkLeft(currentNode, wordNode);
+                        i = currentNode.getWord().length();
+                    }
+                    i++;
+                }
             }
         }
     }
