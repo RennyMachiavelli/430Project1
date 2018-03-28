@@ -6,6 +6,7 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException {
         Scanner keyboard = new Scanner(System.in);
         LetterTree lt = new LetterTree();
+
         WordTree aTree = new WordTree();
         WordTree bTree = new WordTree();
         WordTree cTree = new WordTree();
@@ -34,7 +35,8 @@ public class Main {
         WordTree zTree = new WordTree();
 
         WordTree[] wordTrees = {aTree, bTree, cTree, dTree, eTree, fTree, gTree, hTree, iTree, jTree, kTree, lTree,
-                mTree, nTree, oTree, pTree, qTree, rTree, sTree ,tTree, uTree, vTree, wTree, xTree, yTree, zTree};
+        mTree, nTree, oTree, pTree, qTree, rTree, sTree ,tTree, uTree, vTree, wTree, xTree, yTree, zTree};
+
         char[] alphabet = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
                 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
         int nonBlankCharacters = 0, totalWords= 0;
@@ -45,24 +47,25 @@ public class Main {
         File file = new File(fileName);
         Scanner inputFile = new Scanner(file);
 
-        System.out.println("Input File Name: " + fileName + "\n");
+        System.out.println("Input File Name: " + fileName);
 
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(inputFile.nextLine());
         while(inputFile.hasNext()) {
             sb.append(inputFile.next() + " ");
         }
+        //sb.deleteCharAt(0);
         String originalStr = sb.toString();
         String str = originalStr.toLowerCase();
         for(int n = 0; n <str.length(); n++) {
             if(!Character.isWhitespace(str.charAt(n)))
                 nonBlankCharacters++;
         }
-        String[] tokens = str.split("[-.!:,;* ]");
-        String[] t = str.split(" ");
+        String[] tokens = str.split("[ ,:]");
+        /*for(String s: tokens)
+        System.out.println(s);*/
         totalWords = tokens.length;
-        for(int i = 0; i < t.length; i++){
-            switch (t[i].charAt(0)) {
-                case ' ': break;
+        for(int i = 0; i < tokens.length; i++)  {
+            switch (tokens[i].charAt(0)) {
                 case 'a': aTree.insert(new WordNode(tokens[i],i));
                 break;
                 case 'b': bTree.insert(new WordNode(tokens[i],i));
@@ -119,7 +122,7 @@ public class Main {
             }
         }
         for(int j = 0; j < wordTrees.length; j++) {
-                lt.insert(new LetterNode(alphabet[j],wordTrees[j]));
+            lt.insert(new LetterNode(alphabet[j],wordTrees[j]));
         }
         System.out.println("Statistical Summary");
         System.out.println("Total Number of Non-Blank Characters: " + nonBlankCharacters);

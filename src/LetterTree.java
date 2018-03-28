@@ -6,10 +6,10 @@ public class LetterTree {
     }
 
     public void insert(LetterNode letterNode) {
-        insertNode(root, letterNode);
+        insert(root, letterNode);
     }
 
-    public void insertNode(LetterNode currentNode, LetterNode letterNode) {
+    public void insert(LetterNode currentNode, LetterNode letterNode) {
         if(currentNode == null)
             root = letterNode;
         else {
@@ -17,34 +17,34 @@ public class LetterTree {
                 if(currentNode.getRight() == null)
                     currentNode.setRight(letterNode);
                 else
-                    insertNode(currentNode.getRight(), letterNode);
+                    insert(currentNode.getRight(), letterNode);
             }
             else {
                 if(currentNode.getLeft() == null)
                     currentNode.setLeft(letterNode);
                 else
-                    insertNode(currentNode.getLeft(), letterNode);
+                    insert(currentNode.getLeft(), letterNode);
             }
         }
     }
 
     public void display() {
-        displayNode(root);
+        display(root);
     }
 
-    public void displayNode(LetterNode currentNode) {
+    public void display(LetterNode currentNode) {
         if (currentNode == null)
             System.out.println("The tree is empty");
         else {
             if (currentNode.getLeft() != null)
-                displayNode(currentNode.getLeft());
+                display(currentNode.getLeft());
 
                 System.out.print(Character.toUpperCase(currentNode.getKey()));
                 currentNode.getData().display();
                 System.out.println();
 
             if (currentNode.getRight() != null)
-                displayNode(currentNode.getRight());
+                display(currentNode.getRight());
         }
     }
 }

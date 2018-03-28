@@ -6,17 +6,17 @@ public class WordTree {
     }
 
     public void insert(WordNode wordNode) {
-        insertNode(root, wordNode);
+        insert(root, wordNode);
     }
 
-    public void insertNode(WordNode currentNode, WordNode wordNode) {
+    public void insert(WordNode currentNode, WordNode wordNode) {
         if (currentNode == null)
             root = wordNode;
 
         else {
             if(currentNode.getWord().equals(wordNode.getWord()))
                 currentNode.addPosition(wordNode.getPositions().get(0));
-            else if (currentNode.getWord().length() == 1 || wordNode.getWord().length() == 1) {
+            /*else if (currentNode.getWord().length() == 1 || wordNode.getWord().length() == 1) {
                 //if words are only 1 character long
                 if (currentNode.getWord().length() == 1 && wordNode.getWord().length() != 1)
                     checkRight(currentNode, wordNode);
@@ -27,12 +27,15 @@ public class WordTree {
                 checkRight(currentNode, wordNode);
             else if(currentNode.getWord().length() > wordNode.getWord().length())
                 checkLeft(currentNode, wordNode);
+                */
             //if second character of each word is the same check each letter until !=
             else {
                 if(currentNode.getWord().charAt(1) == wordNode.getWord().charAt(1)) {
                     int i = 1;
-                    while (currentNode.getWord().charAt(i) == wordNode.getWord().charAt(i))
-                        i++;
+                    if(currentNode.getWord().charAt(i +1) != null && wordNode.getWord().charAt(i+1)) != null){
+                        while (currentNode.getWord().charAt(i) == wordNode.getWord().charAt(i))
+                            i++;
+                    }
                     //if current word < new word check if right of current is empty
                     if (currentNode.getWord().charAt(i) < wordNode.getWord().charAt(i))
                         checkRight(currentNode, wordNode);
@@ -53,26 +56,26 @@ public class WordTree {
         if (currentNode.getRight() == null)
             currentNode.setRight(wordNode);
         else
-            insertNode(currentNode.getRight(), wordNode);
+            insert(currentNode.getRight(), wordNode);
     }
 
     private void checkLeft(WordNode currentNode, WordNode wordNode) {
         if (currentNode.getLeft() == null)
             currentNode.setLeft(wordNode);
         else
-            insertNode(currentNode.getLeft(), wordNode);
+            insert(currentNode.getLeft(), wordNode);
     }
 
     public void display() {
-        displayNode(root);
+        display(root);
     }
 
-    public void displayNode(WordNode currentNode) {
+    public void display(WordNode currentNode) {
         if(currentNode == null)
             System.out.print("\nNo words in this tree");
         else {
             if(currentNode.getLeft() != null)
-                displayNode(currentNode.getLeft());
+                display(currentNode.getLeft());
 
             System.out.print("\n" + currentNode.getWord() + "\t");
             Object[] positions = currentNode.getPositions().toArray();
@@ -80,7 +83,7 @@ public class WordTree {
                 System.out.print(positions[i] + ", ");
 
             if(currentNode.getRight() != null)
-                displayNode(currentNode.getRight());
+                display(currentNode.getRight());
         }
     }
 }
