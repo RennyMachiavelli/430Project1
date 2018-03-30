@@ -1,5 +1,6 @@
 public class LetterTree {
     private LetterNode root;
+    private int totalWords = 0, totalDistinctWords = 0;
 
     public LetterTree() {
         root = null;
@@ -7,6 +8,8 @@ public class LetterTree {
 
     public void insert(LetterNode letterNode) {
         insert(root, letterNode);
+        totalWords += letterNode.getData().getWords();
+        totalDistinctWords += letterNode.getData().getDistinctWords();
     }
 
     public void insert(LetterNode currentNode, LetterNode letterNode) {
@@ -46,5 +49,21 @@ public class LetterTree {
             if (currentNode.getRight() != null)
                 display(currentNode.getRight());
         }
+    }
+
+    public int getTotalWords() {
+        return totalWords;
+    }
+
+    public void setTotalWords(int totalWords) {
+        this.totalWords = totalWords;
+    }
+
+    public int getTotalDistinctWords() {
+        return totalDistinctWords;
+    }
+
+    public void setTotalDistinctWords(int totalDistinctWords) {
+        this.totalDistinctWords = totalDistinctWords;
     }
 }

@@ -1,5 +1,6 @@
 public class WordTree {
     private WordNode root;
+    private int words = 0, distinctWords = 0;
 
     public WordTree() {
         root = null;
@@ -10,6 +11,7 @@ public class WordTree {
     }
 
     public void insert(WordNode currentNode, WordNode wordNode) {
+        words++;
         if (currentNode == null)
             root = wordNode;
         else {
@@ -18,13 +20,12 @@ public class WordTree {
                 currentNode.addPosition(wordNode.getPositions().get(0));
             //checks to see if words are not equal in length
             else if (currentNode.getWord().length() != wordNode.getWord().length()) {
-                //if current word contains new word then current word > new word
-                if (currentNode.getWord().contains(wordNode.getWord()))
-                    checkLeft(currentNode, wordNode);
-                    //else if new word contains current word then new word > current word
-                else if (wordNode.getWord().contains(currentNode.getWord()))
+                //if current word is 1 letter then we know that word node > current word
+                if(currentNode.getWord().length() == 1)
                     checkRight(currentNode, wordNode);
-                    //if words are not equal length compare each element the minimum length times
+                //if word node length = 1 then we know that current node length is greater
+                else if(wordNode.getWord().length() == 1)
+                    checkLeft(currentNode, wordNode);
                 else {
                     int i = 1;
                     boolean done = false;
@@ -58,15 +59,19 @@ public class WordTree {
     }
 
     private void checkRight(WordNode currentNode, WordNode wordNode) {
-        if (currentNode.getRight() == null)
+        if (currentNode.getRight() == null) {
             currentNode.setRight(wordNode);
+            distinctWords++;
+        }
         else
             insert(currentNode.getRight(), wordNode);
     }
 
     private void checkLeft(WordNode currentNode, WordNode wordNode) {
-        if (currentNode.getLeft() == null)
+        if (currentNode.getLeft() == null) {
             currentNode.setLeft(wordNode);
+            distinctWords++;
+        }
         else
             insert(currentNode.getLeft(), wordNode);
     }
@@ -90,5 +95,21 @@ public class WordTree {
             if(currentNode.getRight() != null)
                 display(currentNode.getRight());
         }
+    }
+
+    public int getWords() {
+        return words;
+    }
+
+    public void setWords(int words) {
+        this.words = words;
+    }
+
+    public int getDistinctWords() {
+        return distinctWords;
+    }
+
+    public void setDistinctWords(int distinctWords) {
+        this.distinctWords = distinctWords;
     }
 }

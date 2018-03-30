@@ -2,9 +2,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Main {
+public class Project {
     public static void main(String[] args) throws FileNotFoundException {
-        Scanner keyboard = new Scanner(System.in);
+       Scanner keyboard = new Scanner(System.in);
         LetterTree lt = new LetterTree();
 
         WordTree aTree = new WordTree();
@@ -35,11 +35,11 @@ public class Main {
         WordTree zTree = new WordTree();
 
         WordTree[] wordTrees = {aTree, bTree, cTree, dTree, eTree, fTree, gTree, hTree, iTree, jTree, kTree, lTree,
-        mTree, nTree, oTree, pTree, qTree, rTree, sTree ,tTree, uTree, vTree, wTree, xTree, yTree, zTree};
+                mTree, nTree, oTree, pTree, qTree, rTree, sTree ,tTree, uTree, vTree, wTree, xTree, yTree, zTree};
 
         char[] alphabet = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
                 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-        int nonBlankCharacters = 0, totalWords= 0;
+        int nonBlankCharacters = 0, totalSentences = 0, averageWordLength = 0;
 
         System.out.println("\nEnter the name of the file:");
         String fileName = keyboard.nextLine();
@@ -51,101 +51,81 @@ public class Main {
 
         StringBuilder sb = new StringBuilder(inputFile.nextLine());
         while(inputFile.hasNext()) {
-            sb.append(inputFile.next() + " ");
+            //if(!Character.isDigit(inputFile.next().charAt(0)))
+                sb.append(inputFile.next() + " ");
         }
         for(int i = 0; i < sb.length(); i++) {
             if (!Character.isWhitespace(sb.charAt(i)))
                 nonBlankCharacters++;
-            if(Character.isDigit(sb.charAt(i))) {
-                sb.deleteCharAt(i);
-                i--;
-            }
+            if(sb.charAt(i) == '.' || sb.charAt(i) == '?' || sb.charAt(i) == '!')
+                totalSentences++;
         }
         String originalStr = sb.toString();
         String str = originalStr.toLowerCase();
 
-        String[] tokens = str.split("[ ]");
-        totalWords = 0;
+        String[] tokens = str.split("\\s|\\d|,");
+
+
+        /*int totalDistinctWords = 0, totalWords = 0;
+        for(int i = 0; i < tokens.length; i++) {
+            if(tokens[i].length() != 0)
+                totalWords++;
+        }*/
+        tokens = str.split("\\s");
         for(int i = 0; i < tokens.length; i++)  {
             switch (tokens[i].charAt(0)) {
                 case 'a': aTree.insert(new WordNode(tokens[i],i));
-                    totalWords ++;
-                break;
+                    break;
                 case 'b': bTree.insert(new WordNode(tokens[i],i));
-                    totalWords ++;
-                break;
+                    break;
                 case 'c': cTree.insert(new WordNode(tokens[i],i));
-                    totalWords ++;
-                break;
+                    break;
                 case 'd': dTree.insert(new WordNode(tokens[i],i));
-                    totalWords ++;
-                break;
+                    break;
                 case 'e': eTree.insert(new WordNode(tokens[i],i));
-                    totalWords ++;
-                break;
+                    break;
                 case 'f': fTree.insert(new WordNode(tokens[i],i));
-                    totalWords ++;
-                break;
+                    break;
                 case 'g': gTree.insert(new WordNode(tokens[i],i));
-                    totalWords ++;
-                break;
+                    break;
                 case 'h': hTree.insert(new WordNode(tokens[i],i));
-                    totalWords ++;
-                break;
+                    break;
                 case 'i': iTree.insert(new WordNode(tokens[i],i));
-                    totalWords ++;
-                break;
+                    break;
                 case 'j': jTree.insert(new WordNode(tokens[i],i));
-                    totalWords ++;
-                break;
+                    break;
                 case 'k': kTree.insert(new WordNode(tokens[i],i));
-                    totalWords ++;
-                break;
+                    break;
                 case 'l': lTree.insert(new WordNode(tokens[i],i));
-                    totalWords ++;
-                break;
+                    break;
                 case 'm': mTree.insert(new WordNode(tokens[i],i));
-                    totalWords ++;
-                break;
+                    break;
                 case 'n': nTree.insert(new WordNode(tokens[i],i));
-                    totalWords ++;
-                break;
+                    break;
                 case 'o': oTree.insert(new WordNode(tokens[i],i));
-                    totalWords ++;
-                break;
+                    break;
                 case 'p': pTree.insert(new WordNode(tokens[i],i));
-                    totalWords ++;
-                break;
+                    break;
                 case 'q': qTree.insert(new WordNode(tokens[i],i));
-                    totalWords ++;
-                break;
+                    break;
                 case 'r': rTree.insert(new WordNode(tokens[i],i));
-                    totalWords ++;
-                break;
+                    break;
                 case 's': sTree.insert(new WordNode(tokens[i],i));
-                    totalWords ++;
-                break;
+                    break;
                 case 't': tTree.insert(new WordNode(tokens[i],i));
-                    totalWords ++;
-                break;
+                    break;
                 case 'u': uTree.insert(new WordNode(tokens[i],i));
-                    totalWords ++;
-                break;
+                    break;
                 case 'v': vTree.insert(new WordNode(tokens[i],i));
-                    totalWords ++;
-                break;
+                    break;
                 case 'w': wTree.insert(new WordNode(tokens[i],i));
-                    totalWords ++;
-                break;
+                    break;
                 case 'x': xTree.insert(new WordNode(tokens[i],i));
-                    totalWords ++;
-                break;
+                    break;
                 case 'y': yTree.insert(new WordNode(tokens[i],i));
-                    totalWords ++;
-                break;
+                    break;
                 case 'z': zTree.insert(new WordNode(tokens[i],i));
-                    totalWords ++;
-                break;
+                    break;
                 default: break;
             }
         }
@@ -154,7 +134,9 @@ public class Main {
         }
         System.out.println("Statistical Summary");
         System.out.println("Total Number of Non-Blank Characters: " + nonBlankCharacters);
-        System.out.println("Total Number of Words: " + totalWords);
+        System.out.println("Total Number of Words: " + lt.getTotalWords());
+        System.out.println("Total Number of Sentences: " + totalSentences);
+        System.out.println("Total Number of Distinct Words: " + lt.getTotalDistinctWords());
         System.out.println("Index of Distinct Words and Their Position(s)");
         lt.display();
     }
